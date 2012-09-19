@@ -2671,6 +2671,12 @@ public final class Settings {
          */
         public static final String SCREENSHOT_SOUND = "screenshot_sound";
 
+	/**
+         * Height of navigation bar buttons
+         * @hide
+         */
+        public static final String NAVIGATION_BAR_HEIGHT = "navigation_bar_height";
+
         /**
          * Settings to backup. This is here so that it's in the same place as the settings
          * keys and easy to update.
