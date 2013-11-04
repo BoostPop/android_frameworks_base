@@ -2160,4 +2160,6 @@
   <java-symbol type="bool" name="config_LTE_eri_for_network_name" />
   <java-symbol type="bool" name="config_defaultInTouchMode" />
 
+  <java-symbol type="bool" name="config_hasRemovableLid" />
+
 </resources>
