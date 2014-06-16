@@ -41,8 +41,8 @@ public class KeyButtonRipple extends Drawable {
 
     private static final float GLOW_MAX_SCALE_FACTOR = 1.35f;
     private static final float GLOW_MAX_ALPHA = 0.2f;
-    private static final int ANIMATION_DURATION_SCALE = 350;
-    private static final int ANIMATION_DURATION_FADE = 450;
+    private static final int ANIMATION_DURATION_SCALE = 250;
+    private static final int ANIMATION_DURATION_FADE = 350;
 
     private Paint mRipplePaint;
     private CanvasProperty<Float> mLeftProp;
@@ -217,7 +217,7 @@ public class KeyButtonRipple extends Drawable {
         ObjectAnimator scaleAnimator = ObjectAnimator.ofFloat(this, "glowScale",
                 0f, GLOW_MAX_SCALE_FACTOR);
         scaleAnimator.setInterpolator(mInterpolator);
-        scaleAnimator.setDuration(ANIMATION_DURATION_SCALE);
+        scaleAnimator.setDuration(0);
         scaleAnimator.addListener(mAnimatorListener);
         scaleAnimator.start();
         mRunningAnimations.add(scaleAnimator);
