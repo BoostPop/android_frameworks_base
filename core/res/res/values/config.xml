@@ -1860,4 +1860,6 @@
     <!-- Configuration to sending and receiving Mms when mobile data is disable.-->
     <bool name="config_enable_mms_with_mobile_data_off">false</bool>
 
+    <!-- kill app long press back -->
+    <integer name="config_backKillTimeout">1500</integer>
 </resources>
