@@ -140,7 +140,8 @@ public final class BatteryService extends SystemService {
     private boolean mUpdatesStopped;
 
     private Led mLed;
-    private boolean mLightEnabled;
+    // Disable LED until SettingsObserver can be started
+    private boolean mLightEnabled = false;
     private boolean mLedPulseEnabled;
     private int mBatteryLowARGB;
     private int mBatteryMediumARGB;
@@ -712,11 +713,13 @@ public final class BatteryService extends SystemService {
 
     private final class Led {
         private final Light mBatteryLight;
+
         private final int mBatteryLedOn;
         private final int mBatteryLedOff;
 
         public Led(Context context, LightsManager lights) {
             mBatteryLight = lights.getLight(LightsManager.LIGHT_ID_BATTERY);
+
             mBatteryLedOn = context.getResources().getInteger(
                     com.android.internal.R.integer.config_notificationsBatteryLedOn);
             mBatteryLedOff = context.getResources().getInteger(
@@ -730,6 +733,12 @@ public final class BatteryService extends SystemService {
          * Synchronize on BatteryService.
          */
         public void updateLightsLocked() {
+            // mBatteryProps could be null on startup (called by SettingsObserver)
+            if (mBatteryProps == null) {
+                Slog.w(TAG, "updateLightsLocked: mBatteryProps is null; skipping");
+                return;
+            }
+
             final int level = mBatteryProps.batteryLevel;
             final int status = mBatteryProps.batteryStatus;
             if (!mLightEnabled) {
@@ -737,7 +746,7 @@ public final class BatteryService extends SystemService {
                 mBatteryLight.turnOff();
             } else if (level <= mLowBatteryWarningLevel) {
                 if (status == BatteryManager.BATTERY_STATUS_CHARGING) {
-                    // Solid red when battery is charging
+                    // Battery is charging and low
                     mBatteryLight.setColor(mBatteryLowARGB);
                 } else {
                     if (mLedPulseEnabled) {
