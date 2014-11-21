@@ -213,7 +213,7 @@ public class KeyButtonRipple extends Drawable {
         ObjectAnimator scaleAnimator = ObjectAnimator.ofFloat(this, "glowScale",
                 0f, GLOW_MAX_SCALE_FACTOR);
         scaleAnimator.setInterpolator(mInterpolator);
-        scaleAnimator.setDuration(ANIMATION_DURATION_SCALE);
+        scaleAnimator.setDuration(0);
         scaleAnimator.addListener(mAnimatorListener);
         scaleAnimator.start();
         mRunningAnimations.add(scaleAnimator);
