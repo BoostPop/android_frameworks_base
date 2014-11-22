@@ -22,5 +22,6 @@
     <java-symbol type="string" name="reboot_title"/>
     <java-symbol type="string" name="reboot_progress" />
     <java-symbol type="string" name="global_action_reboot" />
-
+    <java-symbol name="ic_lock_power_screenshot" type="drawable" />
+    <java-symbol name="global_action_screenshot" type="string" />
 </resources>
