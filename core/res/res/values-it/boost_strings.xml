@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+
+    <!-- Title of dialog to confirm rebooting. -->
+    <string name="reboot_title">Riavvia</string>
+    <string name="global_action_reboot">Riavvia</string>
+
+    <!-- Reboot Confirmation Dialog.  When the user chooses to reboot the device, there will
+         be a confirmation dialog.  This is the message. -->
+    <string name="reboot_confirm" product="tablet">Vuoi riavviare il tablet?</string>
+    <string name="reboot_confirm" product="default">Vuoi riavviare il Nexus?</string>
+    <!-- label for item that reboots the phone in phone options dialog -->
+
+    <!-- Reboot to recovery -->
+    <string name="global_action_reboot_recovery">Riavvia in recovery</string>
+
+    <!-- Reboot to bootloader -->
+    <string name="global_action_reboot_bootloader">Riavvia in bootloader</string>
+
+</resources>
