@@ -2672,6 +2672,13 @@ public final class Settings {
         public static final String DOUBLE_TAP_SLEEP_GESTURE = "double_tap_sleep_gesture";
 
         /**
+         * Volume Adjust Sounds Enable, This is the noise made when using volume hard buttons
+         * Defaults to 1 - sounds enabled
+         * @hide
+         */
+        public static final String VOLUME_ADJUST_SOUND = "volume_adjust_sound";
+
+        /**
          * Settings to backup. This is here so that it's in the same place as the settings
          * keys and easy to update.
          *
@@ -6658,6 +6665,7 @@ public final class Settings {
          * @hide
          */
         public static final String REQUIRE_PASSWORD_TO_DECRYPT = "require_password_to_decrypt";
+
 
         /**
          * Whether the Volte/VT is enabled
