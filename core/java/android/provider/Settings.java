@@ -2872,26 +2872,6 @@ public final class Settings {
         public static final String SAFE_HEADSET_VOLUME = "safe_headset_volume";
 
         /**
-         * Whether to mute annoying notifications
-         * @hide
-         */
-        public static final String MUTE_ANNOYING_NOTIFICATIONS_THRESHOLD =
-                "mute_annoying_notifications_threshold";
-
-        /**
-         * Volume key controls ringtone or media sound stream
-         *
-         * @hide
-         */
-        public static final String VOLUME_KEYS_CONTROL_MEDIA_STREAM = "volume_keys_control_media_stream";
-
-	/**
-         * Volume rocker wake
-         * @hide
-         */
-        public static final String VOLUME_WAKE_SCREEN = "volume_wake_screen";
-
-        /**
          * Enable/Disable screenshot sound
          * @hide
          */
@@ -2902,18 +2882,6 @@ public final class Settings {
          * @hide
          */
         public static final String NAVIGATION_BAR_HEIGHT = "navigation_bar_height";
-
-	/**
-         * Volume adjust sound
-         * @hide
-         */
-        public static final String VOLUME_KEY_ADJUST_SOUND = "volume_key_adjust_sound";
-
-        /**
-         * Whether to show/hide status bar native battery percentage
-         * @hide
-         */
-        public static final String STATUS_BAR_NATIVE_BATTERY_PERCENTAGE = "status_bar_native_battery_percentage";
 
         /**
          * Volume keys control cursor in text fields (default is 0)
@@ -5136,12 +5104,6 @@ public final class Settings {
          * @hide
          */
         public static final String SLEEP_TIMEOUT = "sleep_timeout";
-
-        /**
-          * Whether to allow killing of the foreground app by long-pressing the Back button
-          * @hide
-          */
-         public static final String KILL_APP_LONGPRESS_BACK = "kill_app_longpress_back";
 
         /**
          * This are the settings to be backed up.
