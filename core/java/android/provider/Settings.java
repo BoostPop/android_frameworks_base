@@ -5206,7 +5206,6 @@ public final class Settings {
             MOUNT_UMS_NOTIFY_ENABLED,
             UI_NIGHT_MODE,
             SLEEP_TIMEOUT,
-            STATUS_BAR_LOCKED_ON_SECURE_KEYGUARD
             STATUS_BAR_LOCKED_ON_SECURE_KEYGUARD,
             LOCKSCREEN_QUICK_UNLOCK_CONTROL,
             ADVANCED_REBOOT
