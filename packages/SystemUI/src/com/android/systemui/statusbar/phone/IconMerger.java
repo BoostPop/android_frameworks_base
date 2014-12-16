@@ -91,9 +91,9 @@ public class IconMerger extends LinearLayout {
         }
     }
 
-    public void setClockAndDateStatus(int width, int mode, boolean enabled) {
+    public void setClockAndDateWidth(int width, int mode) {
         mClockAndDateWidth = width;
-        mCenterClock = mode == Clock.STYLE_CLOCK_CENTER && enabled;
+        mCenterClock = mode == Clock.STYLE_CLOCK_CENTER;
     }
 
 }

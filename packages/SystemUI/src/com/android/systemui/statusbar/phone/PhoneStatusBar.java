@@ -1973,7 +1973,7 @@ public class PhoneStatusBar extends BaseStatusBar implements DemoMode,
 
     public void setClockAndDateStatus(int width, int mode, boolean enabled) {
         if (mNotificationIcons != null) {
-            mNotificationIcons.setClockAndDateStatus(width, mode, enabled);
+            mNotificationIcons.setClockAndDateWidth(width, mode);
         }
         mClockLocation = mode;
         mShowClock = enabled;
