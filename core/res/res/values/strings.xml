@@ -4893,4 +4893,7 @@
     <!-- kill app long press back -->
     <string name="app_killed_message">Hasta la vista...baby</string>
 
+    <!-- Slim Roms seekbar -->
+    <string name="default_string">Default</string>
+
 </resources>
