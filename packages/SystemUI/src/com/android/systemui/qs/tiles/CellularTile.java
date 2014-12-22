@@ -35,7 +35,7 @@ import com.android.systemui.statusbar.policy.NetworkController.NetworkSignalChan
 /** Quick settings tile: Cellular **/
 public class CellularTile extends QSTile<QSTile.SignalState> {
     private static final Intent CELLULAR_SETTINGS = new Intent().setComponent(new ComponentName(
-            "com.android.settings", "com.android.settings.Settings$DataUsageSummaryActivity"));
+            "com.android.phone", "com.android.phone.MobileNetworkSettings"));
 
     private final NetworkController mController;
     private final CellularDetailAdapter mDetailAdapter;
