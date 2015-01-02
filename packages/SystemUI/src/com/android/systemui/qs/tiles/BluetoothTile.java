@@ -46,11 +46,6 @@ public class BluetoothTile extends QSTile<QSTile.BooleanState>  {
     }
 
     @Override
-    public boolean supportsDualTargets() {
-        return true;
-    }
-
-    @Override
     public DetailAdapter getDetailAdapter() {
         return mDetailAdapter;
     }
@@ -84,6 +79,11 @@ public class BluetoothTile extends QSTile<QSTile.BooleanState>  {
         showDetail(true);
     }
 
+    @Override
+    protected void handleLongClick() {
+        mHost.startSettingsActivity(new Intent(Settings.ACTION_BLUETOOTH_SETTINGS));
+    }
+    
     @Override
     protected void handleUpdateState(BooleanState state, Object arg) {
         final boolean supported = mController.isBluetoothSupported();

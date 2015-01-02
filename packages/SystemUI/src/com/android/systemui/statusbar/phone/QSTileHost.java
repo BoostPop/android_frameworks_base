@@ -25,21 +25,29 @@ import android.os.Process;
 import android.os.Handler;
 import android.os.HandlerThread;
 import android.os.Looper;
-import android.provider.Settings.Secure;
+import android.provider.Settings;
 import android.util.Log;
 
 import com.android.systemui.R;
 import com.android.systemui.qs.QSTile;
 import com.android.systemui.qs.tiles.AirplaneModeTile;
+import com.android.systemui.qs.tiles.AdbOverNetworkTile;
 import com.android.systemui.qs.tiles.BluetoothTile;
 import com.android.systemui.qs.tiles.CastTile;
 import com.android.systemui.qs.tiles.CellularTile;
 import com.android.systemui.qs.tiles.ColorInversionTile;
 import com.android.systemui.qs.tiles.FlashlightTile;
 import com.android.systemui.qs.tiles.HotspotTile;
+import com.android.systemui.qs.tiles.ImmersiveTile;
 import com.android.systemui.qs.tiles.IntentTile;
 import com.android.systemui.qs.tiles.LocationTile;
+import com.android.systemui.qs.tiles.NfcTile;
+import com.android.systemui.qs.tiles.NotificationsTile;
 import com.android.systemui.qs.tiles.RotationLockTile;
+import com.android.systemui.qs.tiles.ScreenOffTile;
+import com.android.systemui.qs.tiles.SyncTile;
+import com.android.systemui.qs.tiles.ScreenshotTile;
+import com.android.systemui.qs.tiles.UsbTetherTile;
 import com.android.systemui.qs.tiles.WifiTile;
 import com.android.systemui.settings.CurrentUserTracker;
 import com.android.systemui.statusbar.policy.BluetoothController;
@@ -53,6 +61,7 @@ import com.android.systemui.statusbar.policy.HotspotController;
 import com.android.systemui.statusbar.policy.SecurityController;
 import com.android.systemui.statusbar.policy.UserSwitcherController;
 import com.android.systemui.statusbar.policy.ZenModeController;
+import com.android.systemui.volume.VolumeComponent;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -65,8 +74,6 @@ import java.util.Map;
 public class QSTileHost implements QSTile.Host {
     private static final String TAG = "QSTileHost";
     private static final boolean DEBUG = Log.isLoggable(TAG, Log.DEBUG);
-
-    private static final String TILES_SETTING = "sysui_qs_tiles";
 
     private final Context mContext;
     private final PhoneStatusBar mStatusBar;
@@ -81,6 +88,7 @@ public class QSTileHost implements QSTile.Host {
     private final CastController mCast;
     private final Looper mLooper;
     private final CurrentUserTracker mUserTracker;
+    private final VolumeComponent mVolume;
     private final FlashlightController mFlashlight;
     private final UserSwitcherController mUserSwitcherController;
     private final KeyguardMonitor mKeyguard;
@@ -91,7 +99,7 @@ public class QSTileHost implements QSTile.Host {
     public QSTileHost(Context context, PhoneStatusBar statusBar,
             BluetoothController bluetooth, LocationController location,
             RotationLockController rotation, NetworkController network,
-            ZenModeController zen, HotspotController hotspot,
+            ZenModeController zen, VolumeComponent volume, HotspotController hotspot,
             CastController cast, FlashlightController flashlight,
             UserSwitcherController userSwitcher, KeyguardMonitor keyguard,
             SecurityController security) {
@@ -102,6 +110,7 @@ public class QSTileHost implements QSTile.Host {
         mRotation = rotation;
         mNetwork = network;
         mZen = zen;
+        mVolume = volume;
         mHotspot = hotspot;
         mCast = cast;
         mFlashlight = flashlight;
@@ -193,6 +202,11 @@ public class QSTileHost implements QSTile.Host {
     }
 
     @Override
+    public VolumeComponent getVolumeComponent() {
+        return mVolume;
+    }
+
+    @Override
     public HotspotController getHotspotController() {
         return mHotspot;
     }
@@ -223,26 +237,14 @@ public class QSTileHost implements QSTile.Host {
     private void recreateTiles() {
         if (DEBUG) Log.d(TAG, "Recreating tiles");
         final List<String> tileSpecs = loadTileSpecs();
-        for (Map.Entry<String, QSTile<?>> tile : mTiles.entrySet()) {
-            if (!tileSpecs.contains(tile.getKey())) {
-                if (DEBUG) Log.d(TAG, "Destroying tile: " + tile.getKey());
-                tile.getValue().destroy();
-            }
+        for (QSTile oldTile : mTiles.values()) {
+            oldTile.destroy();
         }
         final LinkedHashMap<String, QSTile<?>> newTiles = new LinkedHashMap<>();
         for (String tileSpec : tileSpecs) {
-            if (mTiles.containsKey(tileSpec)) {
-                newTiles.put(tileSpec, mTiles.get(tileSpec));
-            } else {
-                if (DEBUG) Log.d(TAG, "Creating tile: " + tileSpec);
-                try {
-                    newTiles.put(tileSpec, createTile(tileSpec));
-                } catch (Throwable t) {
-                    Log.w(TAG, "Error creating tile for spec: " + tileSpec, t);
-                }
-            }
+            newTiles.put(tileSpec, createTile(tileSpec));
         }
-        if (mTiles.equals(newTiles)) return;
+
         mTiles.clear();
         mTiles.putAll(newTiles);
         if (mCallback != null) {
@@ -261,6 +263,14 @@ public class QSTileHost implements QSTile.Host {
         else if (tileSpec.equals("location")) return new LocationTile(this);
         else if (tileSpec.equals("cast")) return new CastTile(this);
         else if (tileSpec.equals("hotspot")) return new HotspotTile(this);
+        else if (tileSpec.equals("nfc")) return new NfcTile(this);
+        else if (tileSpec.equals("screen_off")) return new ScreenOffTile(this);
+        else if (tileSpec.equals("sync")) return new SyncTile(this);
+        else if (tileSpec.equals("ScreenshotTile")) return new ScreenshotTile(this);
+        else if (tileSpec.equals("adb_network")) return new AdbOverNetworkTile(this);
+        else if (tileSpec.equals("usb_tether")) return new UsbTetherTile(this);
+        else if (tileSpec.equals("notifications")) return new NotificationsTile(this);
+        else if (tileSpec.equals("immersive")) return new ImmersiveTile(this);
         else if (tileSpec.startsWith(IntentTile.PREFIX)) return IntentTile.create(this,tileSpec);
         else throw new IllegalArgumentException("Bad tile spec: " + tileSpec);
     }
@@ -268,8 +278,9 @@ public class QSTileHost implements QSTile.Host {
     private List<String> loadTileSpecs() {
         final Resources res = mContext.getResources();
         final String defaultTileList = res.getString(R.string.quick_settings_tiles_default);
-        String tileList = Secure.getStringForUser(mContext.getContentResolver(), TILES_SETTING,
-                mUserTracker.getCurrentUserId());
+        String tileList = Settings.Secure.getString(mContext.getContentResolver(),
+                Settings.Secure.QS_TILES);
+        if (DEBUG) Log.d(TAG, "Config string: "+tileList);
         if (tileList == null) {
             tileList = res.getString(R.string.quick_settings_tiles);
             if (DEBUG) Log.d(TAG, "Loaded tile specs from config: " + tileList);
@@ -304,7 +315,11 @@ public class QSTileHost implements QSTile.Host {
             if (mRegistered) {
                 mContext.getContentResolver().unregisterContentObserver(this);
             }
-            mContext.getContentResolver().registerContentObserver(Secure.getUriFor(TILES_SETTING),
+            mContext.getContentResolver().registerContentObserver(
+                    Settings.Secure.getUriFor(Settings.Secure.QS_TILES),
+                    false, this, mUserTracker.getCurrentUserId());
+            mContext.getContentResolver().registerContentObserver(
+                    Settings.Secure.getUriFor(Settings.Secure.QS_USE_MAIN_TILES),
                     false, this, mUserTracker.getCurrentUserId());
             mRegistered = true;
         }

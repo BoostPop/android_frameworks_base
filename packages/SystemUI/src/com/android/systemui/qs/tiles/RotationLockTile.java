@@ -17,6 +17,7 @@
 package com.android.systemui.qs.tiles;
 
 import android.content.res.Configuration;
+import android.content.Intent;
 
 import com.android.systemui.R;
 import com.android.systemui.qs.QSTile;
@@ -35,6 +36,7 @@ public class RotationLockTile extends QSTile<QSTile.BooleanState> {
     private final AnimationIcon mAutoToLandscape
             = new AnimationIcon(R.drawable.ic_landscape_from_auto_rotate_animation);
 
+    private final Intent intent = new Intent(Intent.ACTION_MAIN);
     private final RotationLockController mController;
 
     public RotationLockTile(Host host) {
@@ -62,6 +64,13 @@ public class RotationLockTile extends QSTile<QSTile.BooleanState> {
         final boolean newState = !mState.value;
         mController.setRotationLocked(newState);
         refreshState(newState ? UserBoolean.USER_TRUE : UserBoolean.USER_FALSE);
+    }
+
+    @Override
+    protected void handleLongClick() {
+	intent.setClassName("com.android.settings",
+				"com.android.settings.Settings$DisplayRotationSettingsActivity");
+        mHost.startSettingsActivity(intent);
     }
 
     @Override
