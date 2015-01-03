@@ -37,6 +37,8 @@ import com.android.systemui.statusbar.policy.NetworkController.NetworkSignalChan
 public class CellularTile extends QSTile<QSTile.SignalState> {
     private static final Intent CELLULAR_SETTINGS = new Intent().setComponent(new ComponentName(
             "com.android.settings", "com.android.settings.Settings$DataUsageSummaryActivity"));
+    private static final Intent DATA_SETTINGS = new Intent().setComponent(new ComponentName(
+            "com.android.phone", "com.android.phone.MobileNetworkSettings"));
 
     private final NetworkController mController;
     private final MobileDataController mDataController;
@@ -80,6 +82,11 @@ public class CellularTile extends QSTile<QSTile.SignalState> {
         } else {
             mHost.startSettingsActivity(CELLULAR_SETTINGS);
         }
+    }
+
+     @Override
+    protected void handleLongClick() {
+        mHost.startSettingsActivity(DATA_SETTINGS);
     }
 
     @Override
