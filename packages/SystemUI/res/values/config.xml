@@ -145,35 +145,35 @@
     <!-- The duration in seconds to wait before the dismiss buttons are shown. -->
     <integer name="recents_task_bar_dismiss_delay_seconds">1</integer>
     <!-- The min animation duration for animating views that are currently visible. -->
-    <integer name="recents_filter_animate_current_views_duration">250</integer>
+    <integer name="recents_filter_animate_current_views_duration">200</integer>
     <!-- The min animation duration for animating views that are newly visible. -->
-    <integer name="recents_filter_animate_new_views_duration">250</integer>
+    <integer name="recents_filter_animate_new_views_duration">200</integer>
     <!-- The min animation duration for animating the task bar in. -->
-    <integer name="recents_animate_task_bar_enter_duration">225</integer>
+    <integer name="recents_animate_task_bar_enter_duration">180</integer>
     <!-- The animation delay for animating the first task in. This should roughly be the animation
      duration of the transition in to recents. -->
-    <integer name="recents_animate_task_bar_enter_delay">275</integer>
+    <integer name="recents_animate_task_bar_enter_delay">220</integer>
     <!-- The min animation duration for animating the task bar out. -->
-    <integer name="recents_animate_task_exit_to_home_duration">225</integer>
+    <integer name="recents_animate_task_exit_to_home_duration">180</integer>
     <!-- The min animation duration for animating the task bar out. -->
-    <integer name="recents_animate_task_bar_exit_duration">125</integer>
+    <integer name="recents_animate_task_bar_exit_duration">100</integer>
     <!-- The animation delay for animating the first task in. This should roughly be the animation
      duration of the transition in to recents from home. -->
-    <integer name="recents_animate_task_enter_from_home_delay">150</integer>
+    <integer name="recents_animate_task_enter_from_home_delay">120</integer>
     <!-- The min animation duration for animating the task in when transitioning from home. -->
-    <integer name="recents_animate_task_enter_from_home_duration">250</integer>
+    <integer name="recents_animate_task_enter_from_home_duration">200</integer>
     <!-- The animation stagger to apply to each task animation when transitioning from home. -->
     <integer name="recents_animate_task_enter_from_home_stagger_delay">12</integer>
     <!-- The short duration when animating in/out the lock to app button. -->
-    <integer name="recents_animate_lock_to_app_button_short_duration">150</integer>
+    <integer name="recents_animate_lock_to_app_button_short_duration">120</integer>
     <!-- The long duration when animating in/out the lock to app button. -->
-    <integer name="recents_animate_lock_to_app_button_long_duration">300</integer>
+    <integer name="recents_animate_lock_to_app_button_long_duration">240</integer>
     <!-- The min animation duration for animating the nav bar scrim in. -->
-    <integer name="recents_nav_bar_scrim_enter_duration">400</integer>
+    <integer name="recents_nav_bar_scrim_enter_duration">320</integer>
     <!-- The animation duration for animating the removal of a task view. -->
-    <integer name="recents_animate_task_view_remove_duration">250</integer>
+    <integer name="recents_animate_task_view_remove_duration">200</integer>
     <!-- The animation duration for scrolling the stack to a particular item. -->
-    <integer name="recents_animate_task_stack_scroll_duration">225</integer>
+    <integer name="recents_animate_task_stack_scroll_duration">180</integer>
     <!-- The minimum alpha for the dim applied to cards that go deeper into the stack. -->
     <integer name="recents_max_task_stack_view_dim">96</integer>
     <!-- The delay to enforce between each alt-tab key press. -->
