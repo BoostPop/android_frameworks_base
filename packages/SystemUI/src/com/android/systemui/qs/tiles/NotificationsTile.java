@@ -50,6 +50,7 @@ import com.android.systemui.volume.ZenModePanel;
 
 /** Quick settings tile: Notifications **/
 public class NotificationsTile extends QSTile<NotificationsTile.NotificationsState> {
+    private static final Intent SOUND_SETTINGS = new Intent(Settings.ACTION_SOUND_SETTINGS);
     private final ZenModeController mZenController;
     private final AudioManager mAudioManager;
 
@@ -93,6 +94,11 @@ public class NotificationsTile extends QSTile<NotificationsTile.NotificationsSta
     @Override
     protected void handleClick() {
         showDetail(true);
+    }
+
+    @Override
+    public void handleLongClick() {
+        mHost.startSettingsActivity(SOUND_SETTINGS);
     }
 
     @Override
