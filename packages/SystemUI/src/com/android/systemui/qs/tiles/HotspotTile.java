@@ -17,6 +17,7 @@
 package com.android.systemui.qs.tiles;
 
 import android.content.BroadcastReceiver;
+import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.provider.Settings;
@@ -27,6 +28,8 @@ import com.android.systemui.statusbar.policy.HotspotController;
 
 /** Quick settings tile: Hotspot **/
 public class HotspotTile extends QSTile<QSTile.BooleanState> {
+    private static final Intent TETHER_SETTINGS = new Intent().setComponent(new ComponentName(
+	"com.android.settings", "com.android.settings.TetherSettings"));
     private final HotspotController mController;
     private final Callback mCallback = new Callback();
 
@@ -53,6 +56,11 @@ public class HotspotTile extends QSTile<QSTile.BooleanState> {
     protected void handleClick() {
         final boolean isEnabled = (Boolean) mState.value;
         mController.setHotspotEnabled(!isEnabled);
+    }
+
+     @Override
+    public void handleLongClick() {
+        mHost.startSettingsActivity(TETHER_SETTINGS);
     }
 
     public boolean isHidingTile() {
