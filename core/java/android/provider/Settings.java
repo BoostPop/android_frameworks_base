@@ -2891,6 +2891,36 @@ public final class Settings {
         public static final String STATUS_BAR_SHOW_BATTERY_PERCENT = "status_bar_show_battery_percent";
 
         /**
+         * Show/Hide Airplane Tile
+         * @hide
+         */
+        public static final String QS_SHOW_AIRPLANE_TILE = "qs_show_airplane_tile";
+
+        /**
+         * Show/Hide Notifications Tile
+         * @hide
+         */
+        public static final String QS_SHOW_NOTIFICATIONS_TILE = "qs_show_notifications_tile";
+
+        /**
+         * Show/Hide Cast Tile
+         * @hide
+         */
+        public static final String QS_SHOW_CAST_TILE = "qs_show_cast_tile";
+
+        /**
+         * Show/Hide Color Inversion Tile
+         * @hide
+         */
+        public static final String QS_SHOW_INVERSION_TILE = "qs_show_inversion_tile";
+
+        /**
+         * Show/Hide Hotspot Tile
+         * @hide
+         */
+        public static final String QS_SHOW_HOTSPOT_TILE = "qs_show_hotspot_tile";
+
+        /**
          * Settings to backup. This is here so that it's in the same place as the settings
          * keys and easy to update.
          *

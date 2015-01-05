@@ -34,6 +34,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.media.AudioManager;
+import android.provider.Settings;
 import android.provider.Settings.Global;
 import android.util.Log;
 import android.view.View;
@@ -84,6 +85,11 @@ public class NotificationsTile extends QSTile<NotificationsTile.NotificationsSta
         }
     }
 
+    public boolean isHidingTile() {
+	return (Settings.System.getInt(mContext.getContentResolver(),
+		Settings.System.QS_SHOW_NOTIFICATIONS_TILE, 1) == 1);
+    }
+
     @Override
     protected void handleClick() {
         showDetail(true);
@@ -91,7 +97,7 @@ public class NotificationsTile extends QSTile<NotificationsTile.NotificationsSta
 
     @Override
     protected void handleUpdateState(NotificationsState state, Object arg) {
-        state.visible = true;
+        state.visible = isHidingTile();
         state.zen = mZenController.getZen();
         state.ringerMode = mAudioManager.getRingerMode();
         state.iconId = getNotificationIconId(state.zen, state.ringerMode);

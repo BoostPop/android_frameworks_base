@@ -88,9 +88,14 @@ public class CastTile extends QSTile<QSTile.BooleanState> {
         showDetail(true);
     }
 
+    public boolean isHidingTile() {
+	return (Settings.System.getInt(mContext.getContentResolver(),
+		Settings.System.QS_SHOW_CAST_TILE, 1) == 1);
+    }
+
     @Override
     protected void handleUpdateState(BooleanState state, Object arg) {
-        state.visible = !(mKeyguard.isSecure() && mKeyguard.isShowing());
+        state.visible = !(mKeyguard.isSecure() && mKeyguard.isShowing()) && isHidingTile();
         state.label = mContext.getString(R.string.quick_settings_cast_title);
         state.value = false;
         state.autoMirrorDrawable = false;

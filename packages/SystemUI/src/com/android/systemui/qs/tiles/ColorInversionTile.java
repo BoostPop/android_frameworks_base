@@ -16,18 +16,17 @@
 
 package com.android.systemui.qs.tiles;
 
+import android.provider.Settings;
 import android.provider.Settings.Secure;
 
 import com.android.systemui.R;
 import com.android.systemui.qs.QSTile;
 import com.android.systemui.qs.SecureSetting;
-import com.android.systemui.qs.UsageTracker;
 
 /** Quick settings tile: Invert colors **/
 public class ColorInversionTile extends QSTile<QSTile.BooleanState> {
 
     private final SecureSetting mSetting;
-    private final UsageTracker mUsageTracker;
 
     private boolean mListening;
 
@@ -38,25 +37,11 @@ public class ColorInversionTile extends QSTile<QSTile.BooleanState> {
                 Secure.ACCESSIBILITY_DISPLAY_INVERSION_ENABLED) {
             @Override
             protected void handleValueChanged(int value) {
-                mUsageTracker.trackUsage();
                 if (mListening) {
                     handleRefreshState(value);
                 }
             }
         };
-        mUsageTracker = new UsageTracker(host.getContext(), ColorInversionTile.class);
-        if (mSetting.getValue() != 0 && !mUsageTracker.isRecentlyUsed()) {
-            mUsageTracker.trackUsage();
-        }
-        mUsageTracker.setListening(true);
-        mSetting.setListening(true);
-    }
-
-    @Override
-    protected void handleDestroy() {
-        super.handleDestroy();
-        mUsageTracker.setListening(false);
-        mSetting.setListening(false);
     }
 
     @Override
@@ -80,11 +65,16 @@ public class ColorInversionTile extends QSTile<QSTile.BooleanState> {
         mSetting.setValue(mState.value ? 0 : 1);
     }
 
+    public boolean isHidingTile() {
+        return (Settings.System.getInt(mContext.getContentResolver(),
+                Settings.System.QS_SHOW_INVERSION_TILE, 1) == 1);
+    }
+
     @Override
     protected void handleUpdateState(BooleanState state, Object arg) {
         final int value = arg instanceof Integer ? (Integer) arg : mSetting.getValue();
         final boolean enabled = value != 0;
-        state.visible = enabled || mUsageTracker.isRecentlyUsed();
+        state.visible = isHidingTile();
         state.value = enabled;
         state.label = mContext.getString(R.string.quick_settings_inversion_label);
         state.iconId = enabled ? R.drawable.ic_qs_inversion_on : R.drawable.ic_qs_inversion_off;

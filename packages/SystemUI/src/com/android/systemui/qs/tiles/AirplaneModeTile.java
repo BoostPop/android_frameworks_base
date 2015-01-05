@@ -21,6 +21,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.net.ConnectivityManager;
+import android.provider.Settings;
 import android.provider.Settings.Global;
 
 import com.android.systemui.R;
@@ -60,12 +61,17 @@ public class AirplaneModeTile extends QSTile<QSTile.BooleanState> {
         mgr.setAirplaneMode(enabled);
     }
 
+    public boolean isHidingTile() {
+        return (Settings.System.getInt(mContext.getContentResolver(),
+                Settings.System.QS_SHOW_AIRPLANE_TILE, 1) == 1);
+    }
+
     @Override
     protected void handleUpdateState(BooleanState state, Object arg) {
         final int value = arg instanceof Integer ? (Integer)arg : mSetting.getValue();
         final boolean airplaneMode = value != 0;
         state.value = airplaneMode;
-        state.visible = true;
+        state.visible = isHidingTile();
         state.label = mContext.getString(R.string.quick_settings_airplane_mode_label);
         if (airplaneMode) {
             state.iconId =  R.drawable.ic_qs_airplane_on;

@@ -19,9 +19,9 @@ package com.android.systemui.qs.tiles;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.provider.Settings;
 
 import com.android.systemui.R;
-import com.android.systemui.qs.UsageTracker;
 import com.android.systemui.qs.QSTile;
 import com.android.systemui.statusbar.policy.HotspotController;
 
@@ -29,19 +29,10 @@ import com.android.systemui.statusbar.policy.HotspotController;
 public class HotspotTile extends QSTile<QSTile.BooleanState> {
     private final HotspotController mController;
     private final Callback mCallback = new Callback();
-    private final UsageTracker mUsageTracker;
 
     public HotspotTile(Host host) {
         super(host);
         mController = host.getHotspotController();
-        mUsageTracker = new UsageTracker(host.getContext(), HotspotTile.class);
-        mUsageTracker.setListening(true);
-    }
-
-    @Override
-    protected void handleDestroy() {
-        super.handleDestroy();
-        mUsageTracker.setListening(false);
     }
 
     @Override
@@ -64,10 +55,14 @@ public class HotspotTile extends QSTile<QSTile.BooleanState> {
         mController.setHotspotEnabled(!isEnabled);
     }
 
+    public boolean isHidingTile() {
+        return (Settings.System.getInt(mContext.getContentResolver(),
+                Settings.System.QS_SHOW_HOTSPOT_TILE, 1) == 1);
+    }
+
     @Override
     protected void handleUpdateState(BooleanState state, Object arg) {
-        state.visible = mController.isHotspotSupported() && mUsageTracker.isRecentlyUsed()
-                && !mController.isProvisioningNeeded();
+        state.visible = isHidingTile();
         state.label = mContext.getString(R.string.quick_settings_hotspot_label);
 
         state.value = mController.isHotspotEnabled();
@@ -91,19 +86,4 @@ public class HotspotTile extends QSTile<QSTile.BooleanState> {
         }
     };
 
-    /**
-     * This will catch broadcasts for changes in hotspot state so we can show
-     * the hotspot tile for a number of days after use.
-     */
-    public static class APChangedReceiver extends BroadcastReceiver {
-        private UsageTracker mUsageTracker;
-
-        @Override
-        public void onReceive(Context context, Intent intent) {
-            if (mUsageTracker == null) {
-                mUsageTracker = new UsageTracker(context, HotspotTile.class);
-            }
-            mUsageTracker.trackUsage();
-        }
-    }
 }
