@@ -2096,5 +2096,4 @@
 
   <!-- Config.xml entries -->
   <java-symbol type="integer" name="config_backKillTimeout" />
-
 </resources>
