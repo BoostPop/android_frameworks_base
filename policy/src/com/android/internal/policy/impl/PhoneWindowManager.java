@@ -1203,11 +1203,9 @@ public class PhoneWindowManager implements WindowManagerPolicy {
         if (!mPowerManager.isInteractive()) {
             goingToSleep(WindowManagerPolicy.OFF_BECAUSE_OF_USER);
         }
-	
-	// power menu register broadcast receiver for power menu intent
+        // power menu register broadcast receiver for power menu intent
         mPowerMenuReceiver = new PowerMenuReceiver(context);
         mPowerMenuReceiver.registerSelf();
-
     }
 
     /**
