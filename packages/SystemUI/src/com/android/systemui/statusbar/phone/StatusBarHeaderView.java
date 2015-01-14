@@ -59,7 +59,7 @@ import com.android.systemui.statusbar.policy.UserInfoController;
 /**
  * The view to manage the header area in the expanded status bar.
  */
-public class StatusBarHeaderView extends RelativeLayout implements View.OnClickListener, View.OnLongClickListener,
+public class StatusBarHeaderView extends RelativeLayout implements View.OnClickListener,
         BatteryController.BatteryStateChangeCallback, NextAlarmController.NextAlarmChangeCallback {
 
     private boolean mBatteryCharging;
@@ -165,8 +165,6 @@ public class StatusBarHeaderView extends RelativeLayout implements View.OnClickL
         mDateExpanded = (TextView) findViewById(R.id.date_expanded);
         mSettingsButton = findViewById(R.id.settings_button);
         mSettingsButton.setOnClickListener(this);
-        mSettingsButton.setLongClickable(true);
-	mSettingsButton.setOnLongClickListener(this);
         mQsDetailHeader = findViewById(R.id.qs_detail_header);
         mQsDetailHeader.setAlpha(0);
         mQsDetailHeaderTitle = (TextView) mQsDetailHeader.findViewById(android.R.id.title);
@@ -839,17 +837,6 @@ public class StatusBarHeaderView extends RelativeLayout implements View.OnClickL
     };
 
     @Override
-    public boolean onLongClick(View v) {
-        if (v == mSettingsButton) {
-	    Intent intent = new Intent(Intent.ACTION_POWER_MENU);
-            mContext.sendBroadcast(intent); /* broadcast action */
-            mActivityStarter.startActivity(intent,
-                    true /* dismissShade */);
-        }
-        return false;
-    }
-
-    @Override
     public void onAttachedToWindow() {
         super.onAttachedToWindow();
         getContext().getContentResolver().registerContentObserver(Settings.System.getUriFor(
@@ -864,5 +851,4 @@ public class StatusBarHeaderView extends RelativeLayout implements View.OnClickL
             mBatteryController.removeStateChangedCallback(this);
         }
     }
-
 }
