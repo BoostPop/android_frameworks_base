@@ -170,6 +170,7 @@ public class StatusBarHeaderView extends RelativeLayout implements View.OnClickL
         mSystemIconsSuperContainer = findViewById(R.id.system_icons_super_container);
         mSystemIconsContainer = (ViewGroup) findViewById(R.id.system_icons_container);
         mSystemIconsSuperContainer.setOnClickListener(this);
+        mSystemIconsSuperContainer.setOnLongClickListener(this);
         mDateGroup = findViewById(R.id.date_group);
         mDateGroup.setOnClickListener(this);
         mClock = findViewById(R.id.clock);
@@ -182,6 +183,8 @@ public class StatusBarHeaderView extends RelativeLayout implements View.OnClickL
         mDateExpanded = (TextView) findViewById(R.id.date_expanded);
         mSettingsButton = findViewById(R.id.settings_button);
         mSettingsButton.setOnClickListener(this);
+        mSettingsButton.setLongClickable(true);
+	mSettingsButton.setOnLongClickListener(this);
         mQsDetailHeader = findViewById(R.id.qs_detail_header);
         mQsDetailHeader.setAlpha(0);
         mQsDetailHeaderTitle = (TextView) mQsDetailHeader.findViewById(android.R.id.title);
@@ -564,6 +567,25 @@ public class StatusBarHeaderView extends RelativeLayout implements View.OnClickL
         }
     }
 
+    @Override
+    public boolean onLongClick(View v) {
+	if (v == mStatusBarPowerMenu) {
+            if (mStatusBarPowerMenuStyle == STATUS_BAR_POWER_MENU_DEFAULT) {
+                triggerPowerMenuDialog();
+            } else if (mStatusBarPowerMenuStyle == STATUS_BAR_POWER_MENU_INVERTED) {
+                goToSleep();
+            }
+        } else if (v == mSystemIconsSuperContainer) {
+            startBatteryLongClickActivity();
+        } else if (v == mSettingsButton) {
+            Intent intent = new Intent(Intent.ACTION_MAIN);
+	    intent.setClassName("com.android.settings", "com.android.settings.Settings$BoostSettingsActivity");
+            mActivityStarter.startActivity(intent,
+                    true /* dismissShade */);
+        }
+        return false;
+    }
+
     private void startSettingsActivity() {
         mActivityStarter.startActivity(new Intent(android.provider.Settings.ACTION_SETTINGS),
                 true /* dismissShade */);
@@ -574,10 +596,18 @@ public class StatusBarHeaderView extends RelativeLayout implements View.OnClickL
                 true /* dismissShade */);
     }
 
+    private void startBatteryLongClickActivity() {
+        Intent intent = new Intent(Intent.ACTION_MAIN);
+        intent.setClassName("com.android.settings",
+            "com.android.settings.Settings$BatterySaverSettingsActivity");
+        mActivityStarter.startActivity(intent, true /* dismissShade */);
+    }
+
     private void startClockActivity() {
         mActivityStarter.startActivity(new Intent(AlarmClock.ACTION_SHOW_ALARMS),
                 true /* dismissShade */);
     }
+
 
     private void startDateActivity() {
         Uri.Builder builder = CalendarContract.CONTENT_URI.buildUpon();
@@ -592,6 +622,11 @@ public class StatusBarHeaderView extends RelativeLayout implements View.OnClickL
         mContext.sendBroadcast(intent); /* broadcast action */
         mActivityStarter.startActivity(intent,
                 true /* dismissShade */);
+    }
+
+    private void goToSleep() {
+        PowerManager pm = (PowerManager) mContext.getSystemService(Context.POWER_SERVICE);
+                pm.goToSleep(SystemClock.uptimeMillis());
     }
 
     private void statusBarPowerMenuAction() {
@@ -917,20 +952,4 @@ public class StatusBarHeaderView extends RelativeLayout implements View.OnClickL
         }
     }
 
-    private void goToSleep() {
-        PowerManager pm = (PowerManager) mContext.getSystemService(Context.POWER_SERVICE);
-                pm.goToSleep(SystemClock.uptimeMillis());
-    }
-
-    @Override
-    public boolean onLongClick(View v) {
-        if (v == mStatusBarPowerMenu) {
-            if (mStatusBarPowerMenuStyle == STATUS_BAR_POWER_MENU_DEFAULT) {
-                triggerPowerMenuDialog();
-            } else if (mStatusBarPowerMenuStyle == STATUS_BAR_POWER_MENU_INVERTED) {
-                goToSleep();
-            }
-        }
-        return false;
-    }
 }
