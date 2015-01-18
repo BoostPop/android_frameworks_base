@@ -719,6 +719,7 @@ public class StatusBarHeaderView extends RelativeLayout implements View.OnClickL
 	if (mStatusBarPowerMenu != null){
             mStatusBarPowerMenu.setTranslationY(mSystemIconsSuperContainer.getTranslationY());
 	    mStatusBarPowerMenu.setTranslationX(values.statusBarPowerMenuTranslation);
+	    mStatusBarPowerMenu.setRotation(values.settingsRotation);
 	}
         applyAlpha(mEmergencyCallsOnly, values.emergencyCallsOnlyAlpha);
         if (!mShowingDetail) {
