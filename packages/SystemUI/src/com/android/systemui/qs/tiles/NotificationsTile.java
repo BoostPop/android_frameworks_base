@@ -108,6 +108,7 @@ public class NotificationsTile extends QSTile<NotificationsTile.NotificationsSta
         state.ringerMode = mAudioManager.getRingerMode();
         state.iconId = getNotificationIconId(state.zen, state.ringerMode);
         state.label = mContext.getString(R.string.quick_settings_notifications_label);
+
     }
 
     private int getNotificationIconId(int zenMode, int ringerMode) {
@@ -184,9 +185,9 @@ public class NotificationsTile extends QSTile<NotificationsTile.NotificationsSta
 
         @Override
         public View createDetailView(Context context, View convertView, ViewGroup parent) {
-            if (convertView != null) return convertView;
+            if (convertView != null) convertView.postInvalidate();
             final VolumeComponent volumeComponent = mHost.getVolumeComponent();
-            final VolumePanel vp = new VolumePanel(mContext, parent, mZenController);
+            final VolumePanel vp = new VolumePanel(mContext, parent, mZenController, true);
             final View v = vp.getContentView();
             v.addOnAttachStateChangeListener(new OnAttachStateChangeListener() {
                 @Override
@@ -209,7 +210,7 @@ public class NotificationsTile extends QSTile<NotificationsTile.NotificationsSta
 
                 @Override
                 public void onInteraction() {
-                    // noop
+                    //noop
                 }
 
                 @Override
