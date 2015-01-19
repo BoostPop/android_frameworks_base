@@ -736,6 +736,7 @@ public class VolumePanel extends Handler {
             if (isValidExpandedPanelControl(streamType)) {
                 StreamControl control = mStreamControls.get(streamType);
                 if (control != null && control.streamType != mActiveStreamType) {
+		    if (control.group.getParent() == null)
                     mSliderPanel.addView(control.group);
                     control.group.setVisibility(View.VISIBLE);
                     control.expandPanel.setVisibility(View.GONE);
