@@ -19,6 +19,7 @@ package com.android.systemui.qs.tiles;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.content.res.Resources;
+import android.provider.Settings;
 
 import com.android.systemui.R;
 import com.android.systemui.qs.QSTile;
@@ -62,11 +63,16 @@ public class RotationLockTile extends QSTile<QSTile.BooleanState> {
         mHost.startSettingsActivity(intent);
     }
 
+    public boolean isHidingTile() {
+        return (Settings.System.getInt(mContext.getContentResolver(),
+                Settings.System.QS_SHOW_ROTATION_TILE, 1) == 1);
+    }
+
     @Override
     protected void handleUpdateState(BooleanState state, Object arg) {
         if (mController == null) return;
         final boolean rotationLocked = mController.isRotationLocked();
-        state.visible = mController.isRotationLockAffordanceVisible();
+        state.visible = isHidingTile();
         final Resources res = mContext.getResources();
         state.value = rotationLocked;
         if (rotationLocked) {

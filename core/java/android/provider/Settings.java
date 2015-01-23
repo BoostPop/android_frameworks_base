@@ -2905,6 +2905,12 @@ public final class Settings {
          */
         public static final String QS_SHOW_HOTSPOT_TILE = "qs_show_hotspot_tile";
 
+        /**
+         * Show/Hide Rotation Tile
+         * @hide
+         */
+        public static final String QS_SHOW_ROTATION_TILE = "qs_show_rotation_tile";
+
 	/**
          * Status bar power menu
          * 0 - disabled (default)
