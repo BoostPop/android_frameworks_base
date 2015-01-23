@@ -689,14 +689,18 @@ public class StatusBarHeaderView extends RelativeLayout implements View.OnClickL
         target.batteryLevelAlpha = getAlphaForVisibility(mBatteryLevel);
 	target.statusBarPowerMenuAlpha = getAlphaForVisibility(mStatusBarPowerMenu);
         target.settingsAlpha = getAlphaForVisibility(mSettingsButton);
-        if (mStatusBarPowerMenu != null) {
+        if ((mStatusBarPowerMenu != null) && (mStatusBarPowerMenuStyle != STATUS_BAR_POWER_MENU_OFF )) {
             target.statusBarPowerMenuTranslation = mExpanded
                     ? 0
                     : mMultiUserSwitch.getLeft() - mStatusBarPowerMenu.getLeft();
+
+		    target.settingsTranslation = mExpanded
+                    ? 0
+                    : mStatusBarPowerMenu.getLeft() - mSettingsButton.getRight();
         }
         target.settingsTranslation = mExpanded
                 ? 0
-                : mStatusBarPowerMenu.getLeft() - mSettingsButton.getLeft();
+                : mMultiUserSwitch.getLeft() - mSettingsButton.getLeft();
         target.signalClusterAlpha = mSignalClusterDetached ? 0f : 1f;
         target.settingsRotation = !mExpanded ? 90f : 0f;
     }
