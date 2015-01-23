@@ -579,7 +579,7 @@ public class StatusBarHeaderView extends RelativeLayout implements View.OnClickL
             startBatteryLongClickActivity();
         } else if (v == mSettingsButton) {
             Intent intent = new Intent(Intent.ACTION_MAIN);
-	    intent.setClassName("com.android.settings", "com.android.settings.Settings$BoostSettingsActivity");
+	    intent.setClassName("com.android.settings", "com.android.settings.Settings$QuickSettingsActivity");
             mActivityStarter.startActivity(intent,
                     true /* dismissShade */);
         }
