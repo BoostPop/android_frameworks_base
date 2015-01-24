@@ -21,7 +21,6 @@ public interface LocationController {
     boolean setLocationEnabled(boolean enabled);
     boolean setLocationMode(int mode);
     int getLocationCurrentState();
-    boolean isAdvancedSettingsEnabled();
     void addSettingsChangedCallback(LocationSettingsChangeCallback cb);
     void removeSettingsChangedCallback(LocationSettingsChangeCallback cb);
 
