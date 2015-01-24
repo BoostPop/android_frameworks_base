@@ -187,18 +187,6 @@ public class LocationControllerImpl extends BroadcastReceiver implements Locatio
     }
 
     /**
-     *
-     */
-    public boolean isAdvancedSettingsEnabled() {
-        ContentResolver resolver = mContext.getContentResolver();
-        // QuickSettings always runs as the owner, so specifically retrieve the settings
-        // for the current foreground user.
-        int mode = Settings.Secure.getIntForUser(resolver, Settings.Secure.LOCATION_MODE,
-                Settings.Secure.LOCATION_MODE_OFF, ActivityManager.getCurrentUser());
-        return Settings.System.getIntForUser(resolver, Settings.System.QS_LOCATION_ADVANCED, 0, ActivityManager.getCurrentUser()) == 1;
-    }
-
-    /**
      * Returns true if the current user is restricted from using location.
      */
     private boolean isUserLocationRestricted(int userId) {
