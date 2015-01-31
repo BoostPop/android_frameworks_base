@@ -69,4 +69,9 @@
     <!-- QuickSettings: Network Adb [CHAR LIMIT=NONE] -->
     <string name="quick_settings_network_adb_enabled_label">Enabled</string>
     <string name="quick_settings_network_adb_disabled_label">Disabled</string>
+    <!-- Quick settings -->
+    <string name="quick_settings_screen_off">Screen off</string>
+    <!-- Quick settings -->
+    <string name="quick_settings_screenshot">Screenshot</string>
+
 </resources>
