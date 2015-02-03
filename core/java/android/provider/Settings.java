@@ -2915,6 +2915,12 @@ public final class Settings {
          */
         public static final String STATUS_BAR_POWER_MENU = "status_bar_power_menu";
 
+	/**
+	 * Hide/Show clear-all recents
+	 * @hide
+	 */
+        public static final String RECENTS_CLEAR_ALL_SHOW = "recents_clear_all_show";
+
         /**
          * Whether to dismiss all recents tasks
          * @hide
