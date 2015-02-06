@@ -4584,7 +4584,7 @@ public class PhoneWindowManager implements WindowManagerPolicy {
                 if (down) {
                     boolean panic = mImmersiveModeConfirmation.onPowerKeyDown(interactive,
                             event.getDownTime(), isImmersiveMode(mLastSystemUiFlags));
-                    if (panic && !PolicyControl.isImmersiveFiltersActive()) {
+                    if (panic) {
                         mHandler.post(mRequestTransientNav);
                     }
                     if (interactive && !mPowerKeyTriggered
