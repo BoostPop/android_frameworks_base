@@ -28,4 +28,7 @@
 
     <!-- no interuptions except alarms -->
     <string name="zen_no_interruptions_but_alarm">No interruptions. Except alarms.</string>
+
+    <!-- Quick settings -->
+    <string name="quick_settings_screen_off">Screen off</string>
 </resources>
