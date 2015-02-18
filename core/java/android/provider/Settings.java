@@ -2840,6 +2840,12 @@ public final class Settings {
         public static final String VOLUME_KEY_CURSOR_CONTROL = "volume_key_cursor_control";
 
         /**
+         * Add global SystemUI flags (e.g. for immersive mode)
+         * @hide
+         */
+        public static final String SYSTEM_UI_FLAGS = "system_ui_flags";
+
+        /**
          * Settings to backup. This is here so that it's in the same place as the settings
          * keys and easy to update.
          *
@@ -5075,6 +5081,18 @@ public final class Settings {
          * @hide
          */
         public static final String QS_USE_MAIN_TILES = "sysui_qs_main_tiles";
+
+        /**
+         * Add global SystemUI flags (e.g. for immersive mode)
+         * @hide
+         */
+        public static final String SYSTEM_UI_FLAGS = "system_ui_flags";
+
+        /**
+         * Used to store the last used system ui flags to make qs settings stick after reboot
+         * @hide
+         */
+        public static final String LAST_SYSTEM_UI_FLAGS = "last_system_ui_flags";
 
         /**
          * This are the settings to be backed up.
