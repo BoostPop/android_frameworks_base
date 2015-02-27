@@ -34,4 +34,10 @@
   <java-symbol name="global_action_current_user" type="string" />
 
   <java-symbol type="dimen" name="max_avatar_size" />
+
+  <!-- global actions -->
+  <java-symbol type="id" name="option4" />
+  <java-symbol type="id" name="option5" />
+  <java-symbol type="style" name="GlobalActionsAnimation" />
+
 </resources>
