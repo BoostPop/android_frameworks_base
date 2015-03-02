@@ -1686,8 +1686,6 @@ final class ActivityStack {
                 // previous should actually be hidden depending on whether the
                 // new one is found to be full-screen or not.
                 if (prev.finishing) {
-                    if(prev.waitingVisible)
-                        mStackSupervisor.mWaitingVisibleActivities.add(prev);
                     mWindowManager.setAppVisibility(prev.appToken, false);
                     if (DEBUG_SWITCH) Slog.v(TAG, "Not waiting for visible to hide: "
                             + prev + ", waitingVisible="
@@ -2268,7 +2266,7 @@ final class ActivityStack {
                     // In this case, we want to finish this activity
                     // and everything above it, so be sneaky and pretend
                     // like these are all in the reply chain.
-                    end = activities.size() - 1;
+                    end = numActivities - 1;
                 } else if (replyChainEnd < 0) {
                     end = i;
                 } else {

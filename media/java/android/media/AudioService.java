@@ -253,13 +253,13 @@ public class AudioService extends IAudioService.Stub {
         5,  // STREAM_VOICE_CALL
         7,  // STREAM_SYSTEM
         7,  // STREAM_RING
-        30, // STREAM_MUSIC
+        15, // STREAM_MUSIC
         7,  // STREAM_ALARM
         7,  // STREAM_NOTIFICATION
-        30, // STREAM_BLUETOOTH_SCO
+        15, // STREAM_BLUETOOTH_SCO
         7,  // STREAM_SYSTEM_ENFORCED
-        30, // STREAM_DTMF
-        30  // STREAM_TTS
+        15, // STREAM_DTMF
+        15  // STREAM_TTS
     };
     /* mStreamVolumeAlias[] indicates for each stream if it uses the volume settings
      * of another stream: This avoids multiplying the volume settings for hidden
@@ -590,8 +590,6 @@ public class AudioService extends IAudioService.Stub {
         // array initialized by updateStreamVolumeAlias()
         updateStreamVolumeAlias(false /*updateVolumes*/);
         readPersistedSettings();
-        // must update link ring-notifications streams once the user preferences were read
-        updateLinkNotificationStreamVolumeAlias();
         mSettingsObserver = new SettingsObserver();
         createStreamStates();
 
@@ -806,7 +804,11 @@ public class AudioService extends IAudioService.Stub {
 
         mStreamVolumeAlias[AudioSystem.STREAM_DTMF] = dtmfStreamAlias;
 
-        updateLinkNotificationStreamVolumeAlias();
+        if (mLinkNotificationWithVolume) {
+            mStreamVolumeAlias[AudioSystem.STREAM_NOTIFICATION] = AudioSystem.STREAM_RING;
+        } else {
+            mStreamVolumeAlias[AudioSystem.STREAM_NOTIFICATION] = AudioSystem.STREAM_NOTIFICATION;
+        }
 
         if (updateVolumes) {
             mStreamStates[AudioSystem.STREAM_DTMF].setAllIndexes(mStreamStates[dtmfStreamAlias]);
@@ -818,14 +820,6 @@ public class AudioService extends IAudioService.Stub {
                     0,
                     0,
                     mStreamStates[AudioSystem.STREAM_DTMF], 0);
-        }
-    }
-
-    private void updateLinkNotificationStreamVolumeAlias() {
-        if (mLinkNotificationWithVolume) {
-            mStreamVolumeAlias[AudioSystem.STREAM_NOTIFICATION] = AudioSystem.STREAM_RING;
-        } else {
-            mStreamVolumeAlias[AudioSystem.STREAM_NOTIFICATION] = AudioSystem.STREAM_NOTIFICATION;
         }
     }
 
@@ -1021,9 +1015,7 @@ public class AudioService extends IAudioService.Stub {
         int streamTypeAlias = mStreamVolumeAlias[streamType];
         VolumeStreamState streamState = mStreamStates[streamTypeAlias];
 
-        // when adjuststreamvolume, it should be applied on the device that
-        // chosen for the stream being updated, but not the alias one.
-        final int device = getDeviceForStream(streamType);
+        final int device = getDeviceForStream(streamTypeAlias);
 
         int aliasIndex = streamState.getIndex(device);
         boolean adjustVolume = true;

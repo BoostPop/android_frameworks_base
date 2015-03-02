@@ -325,7 +325,6 @@
   <java-symbol type="string"  name="config_wifi_random_mac_oui" />
 
   <java-symbol type="bool" name="editable_voicemailnumber" />
-  <java-symbol type="bool" name="config_lte_capable" />
 
   <java-symbol type="bool" name="config_wifi_framework_cellular_handover_enable_user_triggered_adjustment" />
   <java-symbol type="integer" name="config_wifi_framework_associated_full_scan_tx_packet_threshold" />
@@ -2077,7 +2076,6 @@
   <java-symbol type="bool" name="config_sms_force_7bit_encoding" />
   <java-symbol type="array" name="config_sms_convert_destination_number_support" />
 
-  <java-symbol type="bool" name="use_motion_accel" />
   <java-symbol type="bool" name="config_enable_mms_with_mobile_data_off" />
 
   <!-- Notification and battery light -->
