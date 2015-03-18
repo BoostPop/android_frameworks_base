@@ -40,4 +40,8 @@
   <java-symbol type="id" name="option5" />
   <java-symbol type="style" name="GlobalActionsAnimation" />
 
+
+  <!--OmniGears Battery lights -->
+  <java-symbol type="bool" name="config_multiColorBatteryLed" />
+  <java-symbol type="bool" name="config_intrusiveBatteryLed" />
 </resources>
