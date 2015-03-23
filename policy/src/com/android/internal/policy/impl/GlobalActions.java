@@ -343,9 +343,9 @@ class GlobalActions implements DialogInterface.OnDismissListener, DialogInterfac
             } else if (GLOBAL_ACTION_KEY_REBOOT.equals(actionKey)) {
                 // always enable the simple reboot
                 mItems.add(new RebootAction());
-            } else if (advancedRebootEnabled(mContext) && GLOBAL_ACTION_KEY_REBOOT_RECOVERY.equals(actionKey)) {
+            } else if (GLOBAL_ACTION_KEY_REBOOT_RECOVERY.equals(actionKey)) {
                 mItems.add(new RebootRecoveryAction());
-            } else if (advancedRebootEnabled(mContext) && GLOBAL_ACTION_KEY_REBOOT_BOOTLOADER.equals(actionKey)) {
+            } else if (GLOBAL_ACTION_KEY_REBOOT_BOOTLOADER.equals(actionKey)) {
                 mItems.add(new RebootBootloaderAction());
             } else if (GLOBAL_ACTION_KEY_AIRPLANE.equals(actionKey)) {
                 mItems.add(mAirplaneModeOn);
@@ -419,7 +419,7 @@ class GlobalActions implements DialogInterface.OnDismissListener, DialogInterfac
                     R.string.global_action_reboot);
             if (mRebootMenu) {
                 mMessageResId = R.string.global_action_reboot_sub;
-            } else if (showRebootSubmenu() && advancedRebootEnabled(mContext)) {
+            } else if (showRebootSubmenu()) {
                 mMessageResId = R.string.global_action_reboot_more;
             }
         }
@@ -453,7 +453,7 @@ class GlobalActions implements DialogInterface.OnDismissListener, DialogInterfac
 
         @Override
         public void onClick(View v) {
-            if (!mRebootMenu && advancedRebootEnabled(mContext) && showRebootSubmenu()) {
+            if (!mRebootMenu && showRebootSubmenu()) {
                 mRebootMenu = true;
                 mMenuActions = mContext.getResources().getStringArray(
                     com.android.internal.R.array.config_rebootActionsList);
@@ -1399,13 +1399,6 @@ class GlobalActions implements DialogInterface.OnDismissListener, DialogInterfac
         }
     }
 
-    private boolean advancedRebootEnabled(Context context) {
-        boolean devOptionsEnabled = Settings.Secure.getInt(context.getContentResolver(),
-                Settings.Secure.DEVELOPER_OPTIONS_ENABLED, 0) == 1;
-        return Settings.Secure.getInt(context.getContentResolver(),
-                Settings.Secure.ADVANCED_REBOOT, devOptionsEnabled ? 1 : 0) == 1;
-    }
-
     private boolean isActionVisible(Action action) {
         if (mKeyguardShowing) {
             KeyguardManager km = (KeyguardManager) mContext.getSystemService(Context.KEYGUARD_SERVICE);
@@ -1434,12 +1427,12 @@ class GlobalActions implements DialogInterface.OnDismissListener, DialogInterfac
                     com.android.internal.R.array.config_rebootActionsList);
         for (int i = 0; i < rebootMenuActions.length; i++) {
             String actionKey = rebootMenuActions[i];
-            if (advancedRebootEnabled(mContext) && GLOBAL_ACTION_KEY_REBOOT_RECOVERY.equals(actionKey)) {
+            if (GLOBAL_ACTION_KEY_REBOOT_RECOVERY.equals(actionKey)) {
                 RebootRecoveryAction a = new RebootRecoveryAction();
                 if (isActionVisible(a)) {
                     items.add(a);
                 }
-            } else if (advancedRebootEnabled(mContext) && GLOBAL_ACTION_KEY_REBOOT_BOOTLOADER.equals(actionKey)) {
+            } else if (GLOBAL_ACTION_KEY_REBOOT_BOOTLOADER.equals(actionKey)) {
                 RebootBootloaderAction a = new RebootBootloaderAction();
                 if (isActionVisible(a)) {
                     items.add(a);
