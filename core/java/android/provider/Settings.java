@@ -2654,6 +2654,12 @@ public final class Settings {
         public static final String EGG_MODE = "egg_mode";
 
         /**
+         * Change volume up and down handlign based on rotation
+         * @hide
+         */
+        public static final String SWAP_VOLUME_BUTTONS = "swap_volume_buttons";
+
+        /**
          * Enable/Disable screenshot sound
          * @hide
          */
@@ -2677,6 +2683,27 @@ public final class Settings {
          * @hide
          */
         public static final String VOLUME_ADJUST_SOUND = "volume_adjust_sound";
+
+        /**
+         * Should the storage removed notification be shown
+         *
+         * @hide
+         */
+        public static final String STORAGE_MEDIA_REMOVED_NOTIFICTION = "storage_media_removed_notification";
+
+        /**
+         * Enable ongoing mount notifications for those storage volumes
+         *
+         * @hide
+         */
+        public static final String STORAGE_MOUNT_NOTIFICATION = "storage_mount_notification";
+
+        /**
+         * Boolean value whether to link ringtone and notification volume
+         *
+         * @hide
+         */
+        public static final String VOLUME_LINK_NOTIFICATION = "volume_link_notification";
 
         /**
          * Settings to backup. This is here so that it's in the same place as the settings
