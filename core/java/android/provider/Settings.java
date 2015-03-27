@@ -3781,6 +3781,12 @@ public final class Settings {
         public static final String LOCK_PATTERN_VISIBLE = "lock_pattern_visible_pattern";
 
         /**
+         * Quick unlock for Keyguard
+         * @hide
+         */
+        public static final String KEYGUARD_QUICK_UNLOCK = "keyguard_quick_unlock";
+
+        /**
          * Whether lock pattern will vibrate as user enters (0 = false, 1 =
          * true)
          *
