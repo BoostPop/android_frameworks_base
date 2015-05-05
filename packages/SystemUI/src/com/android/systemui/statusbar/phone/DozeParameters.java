@@ -18,6 +18,8 @@ package com.android.systemui.statusbar.phone;
 
 import android.content.Context;
 import android.os.SystemProperties;
+import android.os.UserHandle;
+import android.provider.Settings;
 import android.text.TextUtils;
 import android.util.Log;
 import android.util.MathUtils;
@@ -66,6 +68,13 @@ public class DozeParameters {
         pw.print("    getPickupPerformsProxCheck(): "); pw.println(getPickupPerformsProxCheck());
     }
 
+    public boolean getOverwriteValue() {
+        final int values = Settings.System.getIntForUser(mContext.getContentResolver(),
+               Settings.System.DOZE_OVERWRITE_VALUE, 0,
+                    UserHandle.USER_CURRENT);
+        return values != 0;
+    }
+
     public boolean getDisplayStateSupported() {
         return getBoolean("doze.display.supported", R.bool.doze_display_state_supported);
     }
@@ -87,10 +96,20 @@ public class DozeParameters {
     }
 
     public int getPulseVisibleDuration() {
+        if (getOverwriteValue()) {
+            return Settings.System.getIntForUser(mContext.getContentResolver(),
+                Settings.System.DOZE_PULSE_DURATION_VISIBLE, R.integer.doze_pulse_duration_visible,
+                    UserHandle.USER_CURRENT);
+        }
         return getInt("doze.pulse.duration.visible", R.integer.doze_pulse_duration_visible);
     }
 
     public int getPulseOutDuration() {
+        if (getOverwriteValue()) {
+            return Settings.System.getIntForUser(mContext.getContentResolver(),
+                Settings.System.DOZE_PULSE_DURATION_OUT, R.integer.doze_pulse_duration_out,
+                    UserHandle.USER_CURRENT);
+        }
         return getInt("doze.pulse.duration.out", R.integer.doze_pulse_duration_out);
     }
 
@@ -123,8 +142,15 @@ public class DozeParameters {
     }
 
     public PulseSchedule getPulseSchedule() {
-        final String spec = getString("doze.pulse.schedule", R.string.doze_pulse_schedule);
-        if (sPulseSchedule == null || !sPulseSchedule.mSpec.equals(spec)) {
+	final String spec;
+        if (getOverwriteValue()) {
+	    spec = Settings.System.getStringForUser(mContext.getContentResolver(),
+                Settings.System.DOZE_PULSE_SCHEDULE,UserHandle.USER_CURRENT);
+	}
+	else {
+            spec = getString("doze.pulse.schedule", R.string.doze_pulse_schedule);
+     	}
+	if (sPulseSchedule == null || !sPulseSchedule.mSpec.equals(spec)) {
             sPulseSchedule = PulseSchedule.parse(spec);
         }
         return sPulseSchedule;
