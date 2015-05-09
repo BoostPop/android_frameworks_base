@@ -12,5 +12,8 @@
     <string name="quick_settings_adb_network_label">Adb over Network</string>
     <string name="quick_settings_network_adb_enabled_label">Enabled</string>
     <string name="quick_settings_network_adb_disabled_label">Disabled</string>
+    <!-- QuickSettings: NFC [CHAR LIMIT=NONE] -->
+    <string name="quick_settings_nfc">NFC</string>
+    <string name="quick_settings_nfc_off">NFC off</string>
 
 </resources>

@@ -26,4 +26,6 @@
     <!-- ADB tile: number of days to show after feature is used. -->
     <integer name="days_to_show_adb_network_tile">7</integer>
 
+    <!-- NFC tile: number of days to show after feature is used. -->
+    <integer name="days_to_show_nfc_tile">14</integer>
 </resources>
