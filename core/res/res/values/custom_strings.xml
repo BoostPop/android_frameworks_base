@@ -26,9 +26,6 @@
     <string name="global_action_reboot_bootloader">Bootloader</string>
     <string name="global_action_current_user">Current</string>
 
-    <!-- label for item that screenshots in phone options dialog -->
-    <string name="global_action_screenshot">Screenshot</string>
-
     <string name="silent_mode_priority">Priority</string>
     <string name="silent_mode_none">None</string>
 </resources>
