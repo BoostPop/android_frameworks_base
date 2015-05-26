@@ -24,7 +24,6 @@ import com.android.internal.R;
 import com.android.internal.widget.LockPatternUtils;
 import com.android.internal.util.UserIcons;
 
-import android.app.ActivityManager;
 import android.app.ActivityManagerNative;
 import android.app.AlertDialog;
 import android.app.Dialog;
@@ -117,7 +116,6 @@ class GlobalActions implements DialogInterface.OnDismissListener, DialogInterfac
     private static final String GLOBAL_ACTION_KEY_POWER = "power";
     private static final String GLOBAL_ACTION_KEY_SCREENSHOT = "screenshot";
     private static final String GLOBAL_ACTION_KEY_AIRPLANE = "airplane";
-    private static final String GLOBAL_ACTION_KEY_BUGREPORT = "bugreport";
     private static final String GLOBAL_ACTION_KEY_SILENT = "silent";
     private static final String GLOBAL_ACTION_KEY_USERS = "users";
     private static final String GLOBAL_ACTION_KEY_SETTINGS = "settings";
@@ -361,11 +359,6 @@ class GlobalActions implements DialogInterface.OnDismissListener, DialogInterfac
                 mItems.add(getScreenshotAction());
             } else if (GLOBAL_ACTION_KEY_AIRPLANE.equals(actionKey)) {
                 mItems.add(mAirplaneModeOn);
-            } else if (GLOBAL_ACTION_KEY_BUGREPORT.equals(actionKey)) {
-                if (Settings.Global.getInt(mContext.getContentResolver(),
-                        Settings.Global.BUGREPORT_IN_POWER_MENU, 0) != 0 && isCurrentUserOwner()) {
-                    mItems.add(getBugReportAction());
-                }
             } else if (GLOBAL_ACTION_KEY_SILENT.equals(actionKey)) {
                 if (mShowSilentToggle) {
                     mItems.add(mSilentModeAction);
@@ -543,7 +536,7 @@ class GlobalActions implements DialogInterface.OnDismissListener, DialogInterfac
     }
 
     private Action getScreenshotAction() {
-        return new SinglePressAction(com.android.internal.R.drawable.ic_lock_power_screenshot,
+        return new SinglePressAction(com.android.internal.R.drawable.ic_lock_screenshot,
                 R.string.global_action_screenshot) {
 
             public void onPress() {
@@ -570,73 +563,6 @@ class GlobalActions implements DialogInterface.OnDismissListener, DialogInterfac
                 return true;
             }
 
-        };
-    }
-
-    private Action getBugReportAction() {
-        return new SinglePressAction(com.android.internal.R.drawable.ic_lock_bugreport,
-                R.string.bugreport_title) {
-
-            public void onPress() {
-                AlertDialog.Builder builder = new AlertDialog.Builder(mContext);
-                builder.setTitle(com.android.internal.R.string.bugreport_title);
-                builder.setMessage(com.android.internal.R.string.bugreport_message);
-                builder.setNegativeButton(com.android.internal.R.string.cancel, null);
-                builder.setPositiveButton(com.android.internal.R.string.report,
-                        new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                // don't actually trigger the bugreport if we are running stability
-                                // tests via monkey
-                                if (ActivityManager.isUserAMonkey()) {
-                                    return;
-                                }
-                                // Add a little delay before executing, to give the
-                                // dialog a chance to go away before it takes a
-                                // screenshot.
-                                mHandler.postDelayed(new Runnable() {
-                                    @Override public void run() {
-                                        try {
-                                            ActivityManagerNative.getDefault()
-                                                    .requestBugReport();
-                                        } catch (RemoteException e) {
-                                        }
-                                    }
-                                }, 500);
-                            }
-                        });
-                AlertDialog dialog = builder.create();
-                dialog.getWindow().setType(WindowManager.LayoutParams.TYPE_KEYGUARD_DIALOG);
-                dialog.show();
-            }
-
-            @Override
-            public boolean showDuringKeyguard() {
-                return true;
-            }
-
-            @Override
-            public boolean showDuringRestrictedKeyguard() {
-                return true;
-            }
-
-            @Override
-            public boolean showBeforeProvisioning() {
-                return false;
-            }
-
-            @Override
-            public boolean showForCurrentUser() {
-                return true;
-            }
-
-            @Override
-            public String getStatus() {
-                return mContext.getString(
-                        com.android.internal.R.string.bugreport_status,
-                        Build.VERSION.RELEASE,
-                        Build.ID);
-            }
         };
     }
 
