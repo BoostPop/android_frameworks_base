@@ -1,6 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
 
+    <!-- Screenshot delete -->
+    <string name="screenshot_delete_action">Cancella</string>
+    <string name="screenshot_delete_confirmation">Screenshot cancellato.</string>
+
     <!-- QuickSettings: Location (On, low-power) [CHAR LIMIT=NONE] -->
     <string name="quick_settings_location_battery_saving_label">Basso consumo</string>
     <!-- QuickSettings: Location (On, gps-only) [CHAR LIMIT=NONE] -->
