@@ -5071,13 +5071,6 @@ public final class Settings {
         public static final String QS_USE_MAIN_TILES = "sysui_qs_main_tiles";
 
         /**
-	 * Use native four columns for quick settings panel
-         * 0 = no, 1 = yes
-         * @hide
-         */
-        public static final String QS_USE_FOUR_COLUMNS = "sysui_qs_four_columns";
-
-        /**
          * This are the settings to be backed up.
          *
          * NOTE: Settings are backed up and restored in the order they appear
