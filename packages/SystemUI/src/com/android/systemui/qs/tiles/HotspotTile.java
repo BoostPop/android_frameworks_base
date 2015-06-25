@@ -22,7 +22,6 @@ import android.content.Context;
 import android.content.Intent;
 
 import com.android.systemui.R;
-import com.android.systemui.qs.UsageTracker;
 import com.android.systemui.qs.QSTile;
 import com.android.systemui.statusbar.policy.HotspotController;
 import com.android.systemui.statusbar.policy.KeyguardMonitor;
@@ -37,21 +36,17 @@ public class HotspotTile extends QSTile<QSTile.BooleanState> {
 	"com.android.settings", "com.android.settings.TetherSettings"));
     private final HotspotController mController;
     private final Callback mCallback = new Callback();
-    private final UsageTracker mUsageTracker;
     private final KeyguardMonitor mKeyguard;
 
     public HotspotTile(Host host) {
         super(host);
         mController = host.getHotspotController();
-        mUsageTracker = newUsageTracker(host.getContext());
-        mUsageTracker.setListening(true);
         mKeyguard = host.getKeyguardMonitor();
     }
 
     @Override
     protected void handleDestroy() {
         super.handleDestroy();
-        mUsageTracker.setListening(false);
     }
 
     @Override
@@ -99,10 +94,6 @@ public class HotspotTile extends QSTile<QSTile.BooleanState> {
         }
     }
 
-    private static UsageTracker newUsageTracker(Context context) {
-        return new UsageTracker(context, HotspotTile.class, R.integer.days_to_show_hotspot_tile);
-    }
-
     private final class Callback implements HotspotController.Callback {
         @Override
         public void onHotspotChanged(boolean enabled) {
@@ -110,19 +101,4 @@ public class HotspotTile extends QSTile<QSTile.BooleanState> {
         }
     };
 
-    /**
-     * This will catch broadcasts for changes in hotspot state so we can show
-     * the hotspot tile for a number of days after use.
-     */
-    public static class APChangedReceiver extends BroadcastReceiver {
-        private UsageTracker mUsageTracker;
-
-        @Override
-        public void onReceive(Context context, Intent intent) {
-            if (mUsageTracker == null) {
-                mUsageTracker = newUsageTracker(context);
-            }
-            mUsageTracker.trackUsage();
-        }
-    }
 }
