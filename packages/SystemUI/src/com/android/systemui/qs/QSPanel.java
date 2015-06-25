@@ -49,6 +49,7 @@ import java.util.Collection;
 /** View that represents the quick settings tile panel. **/
 public class QSPanel extends ViewGroup {
     private static final float TILE_ASPECT = 1.2f;
+    private static final int quickSettingsColumnsNumber = 4; // decladerd finally for the moment
 
     private final Context mContext;
     private final ArrayList<TileRecord> mRecords = new ArrayList<TileRecord>();
@@ -147,7 +148,10 @@ public class QSPanel extends ViewGroup {
 
     public void updateResources() {
         final Resources res = mContext.getResources();
-        final int columns = Math.max(1, res.getInteger(R.integer.quick_settings_num_columns));
+        final int columns = Math.max(1, (Settings.Secure.getInt(mContext.getContentResolver(), Settings.Secure.QS_USE_FOUR_COLUMNS,0) == 1)
+						? quickSettingsColumnsNumber
+						: res.getInteger(R.integer.quick_settings_num_columns)); 
+
         mCellHeight = res.getDimensionPixelSize(R.dimen.qs_tile_height);
         mCellWidth = (int)(mCellHeight * TILE_ASPECT);
         mLargeCellHeight = res.getDimensionPixelSize(R.dimen.qs_dual_tile_height);
